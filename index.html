@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="./src/style/reset.css" />
+    <link rel="stylesheet" href="./src/style/bootstrap.min.css" />
+    <link rel="stylesheet" href="./src/style/style.css" />
+    <title>Create Post</title>
+  </head>
+  <body>
+    <header style="height: 90px;" class=" d-flex w-100 text-light bg-info align-items-center justify-content-between">
+      <h1 class="fs-5 fw-medium  ps-3">Create Your Post</h1>
+      <nav>
+        <ul class="pe-3 d-flex gap-5 align-items-center ">
+          <li><a target="_blank" class="fw-medium" href="https://www.linkedin.com/in/aziz-azizli-3ba24a28a/">Linkedin </a></li>
+          <li><a target="_blank" class="fw-medium"   href="https://github.com/AzizzAzizli">Git Hub</a></li>
+
+        </ul>
+      </nav>
+    </header>
+<main class="w-100 h-100  container-sm  ">
+    <div class="w-100 d-flex justify-content-center mt-5">
+        <form action="CreatPost" class="d-flex flex-column gap-4 text-center w-75" id="yourPost">
+            <p class="fs-1 fw-medium">Create Post</p>
+             <input class="form-control form-control-lg" type="text" name="title" placeholder="Title" aria-label=".form-control-lg example">
+          <textarea class="form-control" placeholder="Description" name="desc" rows="3"></textarea>
+              <button type="submit" class="btn btn-outline-info">Add</button>
+         </form>
+    </div>
+    <div class="w-100 align-items-center d-flex flex-column gap-5 mt-5 " id="postArea">
+        <p id="noPost"  class="fw-bold fs-1 text-center p-5 mt-5 text-secondary ">You haven't posted anything yet.</p>
+    </div>
+ 
+
+</main>
+    <script src="./src/js/code.jquery.com_jquery-3.7.1.min.js"></script>
+    <script src="./src/js/index.js"></script>
+  </body>
+</html>
