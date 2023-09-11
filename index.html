@@ -4,12 +4,12 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="./src/style/reset.css" />
-    <link rel="stylesheet" href="./src/style/bootstrap.min.css" />
+    <link rel="stylesheet" href="./src/style/bootstrap-min.css" />
     <link rel="stylesheet" href="./src/style/style.css" />
     <title>Create Post</title>
   </head>
   <body>
-    <header style="height: 90px;" class=" d-flex w-100 text-light bg-info align-items-center justify-content-between">
+    <header style="height: 90px;" class=" position-sticky top-0 z-2 d-flex w-100 text-light bg-info align-items-center justify-content-between">
       <h1 class="fs-5 fw-medium  ps-3">Create Your Post</h1>
       <nav>
         <ul class="pe-3 d-flex gap-5 align-items-center ">
@@ -19,6 +19,14 @@
         </ul>
       </nav>
     </header>
+    <div id="alert" class="w-100 d-none  d-flex justify-content-center mt-3">
+      <div class="alert alert-danger text-center w-50 d-flex justify-content-between" role="alert">
+        Please enter a valid post
+      <button  id="alertClose" class="btn btn-outline-primary">Close</button>
+
+      </div>
+    </div>
+    
 <main class="w-100 h-100  container-sm  ">
     <div class="w-100 d-flex justify-content-center mt-5">
         <form action="CreatPost" class="d-flex flex-column gap-4 text-center w-75" id="yourPost">
@@ -26,15 +34,28 @@
              <input class="form-control form-control-lg" type="text" name="title" placeholder="Title" aria-label=".form-control-lg example">
           <textarea class="form-control" placeholder="Description" name="desc" rows="3"></textarea>
               <button type="submit" class="btn btn-outline-info">Add</button>
+              
          </form>
     </div>
-    <div class="w-100 align-items-center d-flex flex-column gap-5 mt-5 " id="postArea">
-        <p id="noPost"  class="fw-bold fs-1 text-center p-5 mt-5 text-secondary ">You haven't posted anything yet.</p>
+    <p id="noPost" class="fw-bold fs-1 d-none text-center p-5 mt-5 text-secondary ">It looks empty.</p>
+    <div class="w-100 align-items-center d-flex flex-column gap-5 mt-5 mb-5" id="postArea">
+      
+
     </div>
- 
+ <div id="editDiv" class="d-flex justify-content-center align-items-center d-none">
+  <div class="d-flex flex-column justify-content-center align-items-center gap-3 bg-secondary p-5 rounded-3">
+    <input class="form-control form-control-lg w-100" type="text"  id="editedTitle" placeholder="Title" aria-label=".form-control-lg example">
+    <textarea class="form-control w-100" placeholder="Description" id="editedDesc" rows="3"></textarea>
+        <button type="button" class="btn btn-outline-warning w-100 " onclick="saveAndRender()" id="save">Save</button>
+        <button type="button" class="btn btn-outline-info w-100 " onclick="closeBtn()">Close</button>
+
+        
+  </div>
+
+ </div>
 
 </main>
-    <script src="./src/js/code.jquery.com_jquery-3.7.1.min.js"></script>
+    <script src="./src/js/jquery-3-7-1-min.js"></script>
     <script src="./src/js/index.js"></script>
   </body>
 </html>

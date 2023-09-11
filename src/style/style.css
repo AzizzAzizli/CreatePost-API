@@ -4,3 +4,12 @@ header a:hover {
   header a{
     color:white
   }
+  #editDiv{
+    height: 100vh;
+    width: 100%;
+   position: fixed;
+    top: 0px;
+    left: 0px;
+    background-color: rgba(0, 0, 0, 0.348);
+  }
+ 

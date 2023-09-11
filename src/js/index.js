@@ -35,6 +35,7 @@ async function post(form) {
 }
 async function put(id, form) {
   try {
+   
     let respons = await fetch(url + id, {
       method: "PUT",
       headers: {
@@ -61,14 +62,31 @@ async function del(id) {
   }
 }
 
-document.addEventListener("DOMContentLoaded", async function () {
+
+window.onload = async function () {
   const posts = await get();
-
   renderPosts(posts);
-});
 
+
+};
+
+
+$("#alertClose").on("click",function () {
+  $("#alert").fadeOut("slow");
+  
+  setTimeout(function(){
+    $("#alert").addClass("d-none");
+
+  },500);
+})
 form.on("submit", async function (e) {
   e.preventDefault();
+  if(this.title.value==""||this.desc.value=="") {
+  $("#alert").fadeIn("slow");
+   
+    $("#alert").removeClass("d-none")
+    return;
+  }
   let data = { title: `${this.title.value}`, body: `${this.desc.value}` };
   this.title.value = "";
   this.desc.value = "";
@@ -78,16 +96,33 @@ form.on("submit", async function (e) {
   renderPosts(posts);
 });
 function renderPosts(posts) {
+
+
+
+
+  if(posts.length <=100) {
+    noPost.removeClass("d-none");
+  }
+  else{
+    noPost.addClass("d-none");
+
+  }
+
   let datas = posts.map((el) => {
     if (el.id > 100) {
-      return `<div class="card w-75">
+      return `<div class="card w-75 ">
             <div class="card-header h1 text-info">
               ${el.title}
             </div>
             <div class="card-body">
-              <h3 class="card-title text-primary-emphasis">${el.body}</h3>
+              <h3 class="card-title text-primary-emphasis p-3">${el.body}</h3>
               
-              <a  class="btn btn-danger" onclick="delAndRender(${el.id})" >Delete</a>
+              <a  class="btn btn-outline-danger" onclick="delAndRender(${el.id})" >Delete</a>
+              <a class="btn btn-outline-warning" onclick="editAndRender(${el.id},'${el.title}','${el.body}')">Edit</a>
+
+
+
+
             </div>
             </div>`;
     }
@@ -106,7 +141,12 @@ async function delAndRender(id) {
 form.find("[name='title']").on("keydown", async function (evt) {
   if (evt.key === "Enter") {
     evt.preventDefault();
+    if(this.value==""||form.find("[name='desc']").val()=="") {
+      $("#alert").fadeIn("slow");
 
+      $("#alert").removeClass("d-none");
+        return;
+      }
     let data = {
       title: `${this.value}`,
       body: `${form.find("[name='desc']").val()}`,
@@ -120,3 +160,33 @@ form.find("[name='title']").on("keydown", async function (evt) {
     renderPosts(posts);
   }
 });
+
+async function saveAndRender(id,title,desc){
+
+  let editedData={ title: title, body: desc};
+ await put(id,editedData);
+ const newDatas = await get();
+
+ renderPosts(newDatas);
+
+
+ }
+
+
+
+function editAndRender(id,title,body) {
+$("#editDiv").removeClass("d-none");
+$("#editedTitle").val(title);
+$("#editedDesc").val(body);
+
+$("#save").on("click", function(){
+saveAndRender(id,$("#editedTitle").val(),$("#editedDesc").val());
+$("#editDiv").addClass("d-none");
+  
+})
+
+
+}
+function closeBtn(){
+$("#editDiv").addClass("d-none");
+}
