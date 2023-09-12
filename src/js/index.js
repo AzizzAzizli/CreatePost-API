@@ -95,13 +95,16 @@ form.on("submit", async function (e) {
 //-------Render function-----------------------
 
 function renderPosts(posts) {
-  if (posts.length <= 100) {
+// console.log(posts[posts.length-1].id);
+  if (posts[posts.length-1].id <= 100) {
     noPost.removeClass("d-none");
+
   } else {
     noPost.addClass("d-none");
+
   }
 
-  let datas = posts.map((el) => {
+  let datas = posts.reverse().map((el) => {
     if (el.id > 100) {
       return `<div class="card w-75 ">
             <div class="card-header h1 text-info">
