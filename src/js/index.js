@@ -4,7 +4,7 @@ const form = $("#yourPost");
 const postArea = $("#postArea");
 
 const url = "https://blog-api-t6u0.onrender.com/posts/";
-
+//-----API methods-----
 async function get() {
   try {
     let respons = await fetch(url, {
@@ -35,7 +35,6 @@ async function post(form) {
 }
 async function put(id, form) {
   try {
-   
     let respons = await fetch(url + id, {
       method: "PUT",
       headers: {
@@ -62,29 +61,26 @@ async function del(id) {
   }
 }
 
-
 window.onload = async function () {
   const posts = await get();
   renderPosts(posts);
-
-
 };
 
-
-$("#alertClose").on("click",function () {
+$("#alertClose").on("click", function () {
   $("#alert").fadeOut("slow");
-  
-  setTimeout(function(){
-    $("#alert").addClass("d-none");
 
-  },500);
-})
+  setTimeout(function () {
+    $("#alert").addClass("d-none");
+  }, 500);
+});
+//-----Submit Button---------------------
+
 form.on("submit", async function (e) {
   e.preventDefault();
-  if(this.title.value==""||this.desc.value=="") {
-  $("#alert").fadeIn("slow");
-   
-    $("#alert").removeClass("d-none")
+  if (this.title.value == "" || this.desc.value == "") {
+    $("#alert").fadeIn("slow");
+
+    $("#alert").removeClass("d-none");
     return;
   }
   let data = { title: `${this.title.value}`, body: `${this.desc.value}` };
@@ -95,17 +91,14 @@ form.on("submit", async function (e) {
   const posts = await get();
   renderPosts(posts);
 });
+
+//-------Render function-----------------------
+
 function renderPosts(posts) {
-
-
-
-
-  if(posts.length <=100) {
+  if (posts.length <= 100) {
     noPost.removeClass("d-none");
-  }
-  else{
+  } else {
     noPost.addClass("d-none");
-
   }
 
   let datas = posts.map((el) => {
@@ -116,37 +109,33 @@ function renderPosts(posts) {
             </div>
             <div class="card-body">
               <h3 class="card-title text-primary-emphasis p-3">${el.body}</h3>
-              
               <a  class="btn btn-outline-danger" onclick="delAndRender(${el.id})" >Delete</a>
               <a class="btn btn-outline-warning" onclick="editAndRender(${el.id},'${el.title}','${el.body}')">Edit</a>
-
-
-
-
             </div>
             </div>`;
     }
-
     return "";
   });
   postArea.html(datas.join(""));
 }
-
+//-----Delete function--------------------------------
 async function delAndRender(id) {
   await del(id);
   const newDatas = await get();
   renderPosts(newDatas);
 }
 
+//-----Enter button--------------------------------
+
 form.find("[name='title']").on("keydown", async function (evt) {
   if (evt.key === "Enter") {
     evt.preventDefault();
-    if(this.value==""||form.find("[name='desc']").val()=="") {
+    if (this.value == "" || form.find("[name='desc']").val() == "") {
       $("#alert").fadeIn("slow");
 
       $("#alert").removeClass("d-none");
-        return;
-      }
+      return;
+    }
     let data = {
       title: `${this.value}`,
       body: `${form.find("[name='desc']").val()}`,
@@ -161,32 +150,28 @@ form.find("[name='title']").on("keydown", async function (evt) {
   }
 });
 
-async function saveAndRender(id,title,desc){
+//----Save and Render function --------------------------------
+async function saveAndRender(id, title, desc) {
+  let editedData = { title: title, body: desc };
+  await put(id, editedData);
+  const newDatas = await get();
 
-  let editedData={ title: title, body: desc};
- await put(id,editedData);
- const newDatas = await get();
-
- renderPosts(newDatas);
-
-
- }
-
-
-
-function editAndRender(id,title,body) {
-$("#editDiv").removeClass("d-none");
-$("#editedTitle").val(title);
-$("#editedDesc").val(body);
-
-$("#save").on("click", function(){
-saveAndRender(id,$("#editedTitle").val(),$("#editedDesc").val());
-$("#editDiv").addClass("d-none");
-  
-})
-
-
+  renderPosts(newDatas);
 }
-function closeBtn(){
-$("#editDiv").addClass("d-none");
+
+//----Render edit div----------
+
+function editAndRender(id, title, body) {
+  $("#editDiv").removeClass("d-none");
+  $("#editedTitle").val(title);
+  $("#editedDesc").val(body);
+
+  $("#save").on("click", function () {
+    saveAndRender(id, $("#editedTitle").val(), $("#editedDesc").val());
+    $("#editDiv").addClass("d-none");
+  });
+}
+//-----Close---------------------
+function closeBtn() {
+  $("#editDiv").addClass("d-none");
 }
